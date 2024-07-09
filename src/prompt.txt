@@ -1,0 +1,2 @@
+Make me this layout as on the picture using tailwindcss + react components. make sure to use flexbox and also mobile layout
+A few moments: break anything into components like main blocks of the page must be in their own components. reuse shared components if possible like <Button>. Now do the same thing with the provided screenshot and add if possible fade in or other cool appear animation using framer motion. Please ignore the background grid in screenshot for now

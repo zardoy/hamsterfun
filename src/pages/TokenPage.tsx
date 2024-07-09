@@ -76,7 +76,7 @@ const Header = () => (
 // Token Info component
 const TokenInfo = () => (
     <motion.div
-        className="bg-gray-800 p-4 rounded-lg mb-4"
+        className="bg-gray-800 p-4 rounded-lg mb-4 bg-opacity-70 backdrop-blur"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, delay: 0.4 }}
@@ -107,7 +107,7 @@ const TokenInfo = () => (
 // Progress Bars component
 const ProgressBars = () => (
     <motion.div
-        className="bg-gray-800 p-4 rounded-lg mb-4"
+        className="bg-gray-800 p-4 rounded-lg mb-4 bg-opacity-70 backdrop-blur"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, delay: 0.6 }}
@@ -129,7 +129,7 @@ const ProgressBars = () => (
 // Token Holders component
 const TokenHolders = () => (
     <motion.div
-        className="bg-gray-800 p-4 rounded-lg"
+        className="bg-gray-800 p-4 rounded-lg mb-4 bg-opacity-70 backdrop-blur"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, delay: 0.8 }}
@@ -160,7 +160,7 @@ const TokenPage = () => {
                 <div className="md:col-span-2">
                     <TokenInfo />
                     {/* Placeholder for the chart */}
-                    <div className="bg-gray-800 p-4 rounded-lg">
+                    <div className="bg-gray-800 p-4 rounded-lg mb-4 bg-opacity-70 backdrop-blur">
                         <TradingHistoryChart />
                     </div>
                 </div>
