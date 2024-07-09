@@ -1,10 +1,15 @@
 import { SendTransactionRequest, TonConnectButton, TonConnectUIProvider, useTonAddress, useTonConnectUI, useTonWallet } from '@tonconnect/ui-react'
 import { useEffect } from 'react'
+import { RouterProvider } from 'react-router-dom'
+import Dashboard from './pages/Dashboard'
+import TokenPage from './pages/TokenPage'
+import FuturisticGridBackground from './Background'
+import { mainRouter } from './Router'
 
 export default function App() {
     return (
         <TonConnectUIProvider manifestUrl={`${location.origin}/tonconnect-manifest.json`}>
-            <View />
+            <RouterProvider router={mainRouter} />
         </TonConnectUIProvider>
     )
 }
@@ -34,10 +39,13 @@ function View() {
 
     return (
         <div>
-            <button onClick={async () => tonConnectUI.sendTransaction(myTransaction)}>Send transaction</button>
+            {/* <button onClick={async () => tonConnectUI.sendTransaction(myTransaction)}>Send transaction</button>
             <Header />
             <span>User-friendly address: {userFriendlyAddress}</span>
-            <span>Raw address: {rawAddress}</span>
+            <span>Raw address: {rawAddress}</span> */}
+            {/* <Dashboard /> */}
+            <TokenPage />
+            <FuturisticGridBackground />
         </div>
     )
 }
