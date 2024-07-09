@@ -11,8 +11,8 @@ const FuturisticGridBackground = () => {
 
         // Set canvas size
         const resizeCanvas = () => {
-            canvas.width = window.innerWidth
-            canvas.height = window.innerHeight
+            canvas.width = window.innerWidth * window.devicePixelRatio
+            canvas.height = window.innerHeight * window.devicePixelRatio
         }
 
         resizeCanvas()
@@ -26,8 +26,8 @@ const FuturisticGridBackground = () => {
         const particles = []
         const particleCount = 10
         const particleRadius = 3
-        const particleColor = 'rgba(0, 255, 255, 1)'
-        const particleSpeed = 1
+        const particleColor = 'rgba(0, 255, 255, 0.5)'
+        const particleSpeed = 0.3
 
         class Particle {
             constructor() {

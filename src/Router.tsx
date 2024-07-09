@@ -4,6 +4,7 @@ import ErrorPageProviderRouter from './ErrorPageProviderRouter'
 import Dashboard from './pages/Dashboard'
 import TokenPage from './pages/TokenPage'
 import TradingHistoryChart from './TokenChart'
+import FuturisticGridBackground from './Background'
 
 export const mainRouter = createBrowserRouter([
     {
@@ -22,6 +23,10 @@ export const mainRouter = createBrowserRouter([
             {
                 path: '/chart',
                 Component: TradingHistoryChart,
+            },
+            {
+                path: '/bg',
+                Component: FuturisticGridBackground,
             },
         ],
     },

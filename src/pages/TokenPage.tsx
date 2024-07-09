@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { Send, Twitter, Globe } from 'lucide-react'
 import WalletButtons from '../WalletButtons'
 import TradingHistoryChart from '../TokenChart'
+import FuturisticGridBackground from '../Background'
 
 // Reusable Button component
 const Button = ({ children, variant = 'primary', className = '', ...props }) => {
@@ -152,7 +153,7 @@ const TokenHolders = () => (
 // Main Dashboard component
 const TokenPage = () => {
     return (
-        <div className="bg-gray-900 text-white min-h-screen p-4">
+        <div className="text-white min-h-screen p-4">
             <EventTicker />
             <Header />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -168,6 +169,7 @@ const TokenPage = () => {
                     <TokenHolders />
                 </div>
             </div>
+            <FuturisticGridBackground />
         </div>
     )
 }
