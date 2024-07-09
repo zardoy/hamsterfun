@@ -1,0 +1,25 @@
+{
+    "extends": "zardoy/react",
+    "ignorePatterns": [
+        "src/api*"
+    ],
+    "rules": {
+        "import/no-deprecated": "off",
+        "@typescript-eslint/member-ordering": "off",
+        "@typescript-eslint/naming-convention": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "arrow-body-style": "off",
+        "new-cap": "off",
+        "@typescript-eslint/ban-types": "off",
+        "react/prefer-read-only-props": "off", // easier to follow yourself than deal with hundred of type-errors
+        "@typescript-eslint/consistent-type-definitions": "off",
+        "unicorn/prefer-number-properties": "off",
+        "@typescript-eslint/consistent-type-imports": "off",
+        "react/function-component-definition": "off",
+        "no-empty-function": "off"
+    },
+    "plugins": [
+        "eslint-plugin-react",
+        "eslint-plugin-react-hooks"
+    ]
+}

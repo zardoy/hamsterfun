@@ -1,0 +1,79 @@
+{
+    "name": "lychee",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "start": "vite",
+        "build": "vite build",
+        "generate-api": "curl -o src/api/spec.json https://api.lycheetest.site/v3/api-docs && openapi-generator-cli generate -i src/api/spec.json -g typescript-axios -o src/api",
+        "lint": "eslint src",
+        "test:e2e": "echo skipped"
+    },
+    "dependencies": {
+        "@floating-ui/react": "^0.26.4",
+        "@iconify-icons/mdi": "^1.2.48",
+        "@iconify/react": "^4.1.1",
+        "@icons-pack/react-simple-icons": "^9.2.0",
+        "@sentry/react": "^8.7.0",
+        "@stylexjs/stylex": "^0.4.1",
+        "@tanstack/react-query": "^5.40.1",
+        "@tonconnect/ui-react": "^2.0.6",
+        "@vitejs/plugin-react": "^4.2.1",
+        "@web3modal/wagmi": "^4.2.1",
+        "@zardoy/dsa-connect": "0.6.82",
+        "@zardoy/react-util": "^0.2.5",
+        "autoprefixer": "^10.4.19",
+        "axios": "^1.6.2",
+        "bignumber.js": "^9.1.2",
+        "change-case": "^5.3.0",
+        "classnames": "^2.5.1",
+        "cypress-esbuild-preprocessor": "^1.0.2",
+        "eslint": "^8.55.0",
+        "eslint-config-zardoy": "^0.2.17",
+        "eslint-plugin-react": "^7.33.2",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "ethers": "^6.9.0",
+        "framer-motion": "^10.18.0",
+        "geist": "^1.2.0",
+        "lodash-es": "^4.17.21",
+        "postcss": "^8.4.32",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-router": "^6.20.1",
+        "react-router-dom": "^6.20.1",
+        "react-transition-group": "^4.4.5",
+        "react-use": "^17.4.2",
+        "sass": "^1.77.6",
+        "tailwindcss": "^3.4.4",
+        "title-case": "^4.2.0",
+        "valtio": "^1.12.1",
+        "viem": "^2.13.7",
+        "vite": "^5.0.8",
+        "vite-plugin-static-copy": "^1.0.0",
+        "vite-plugin-stylex": "^0.4.1",
+        "vite-plugin-svgr": "^4.2.0",
+        "wagmi": "^2.9.9"
+    },
+    "devDependencies": {
+        "@types/lodash-es": "^4.17.12",
+        "@types/react": "^18.2.45",
+        "@types/react-dom": "^18.2.17",
+        "@zardoy/tsconfig": "^1.5.1",
+        "typescript": "^5.3.3"
+    },
+    "prettier": {
+        "semi": false,
+        "singleQuote": true,
+        "proseWrap": "never",
+        "tabWidth": 4,
+        "trailingComma": "all",
+        "arrowParens": "avoid",
+        "printWidth": 160,
+        "endOfLine": "auto"
+    },
+    "pnpm": {
+        "overrides": {
+            "@stylexjs/babel-plugin": "0.4.1"
+        }
+    }
+}
