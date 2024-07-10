@@ -1,48 +1,41 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Send, Twitter, Globe } from 'lucide-react'
+import { Send, Globe } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { twMerge } from 'tailwind-merge'
+import { SiX } from '@icons-pack/react-simple-icons'
 import WalletButtons from '../WalletButtons'
 import TradingHistoryChart from '../TokenChart'
 import FuturisticGridBackground from '../Background'
+
+const GlobalStyles = ({ css }) => {
+    useEffect(() => {
+        const style = document.createElement('style')
+        // eslint-disable-next-line unicorn/prefer-dom-node-append
+        style.appendChild(document.createTextNode(css))
+        document.head.append(style)
+        return () => {
+            style.remove()
+        }
+    }, [css])
+
+    return null
+}
+
+const tw = String.raw
 
 // Reusable Button component
 const Button = ({ children, variant = 'primary', className = '', ...props }) => {
     const baseClasses = 'px-4 py-2 rounded font-semibold'
     const variantClasses = {
-        primary: 'bg-blue-500 text-white',
-        secondary: 'bg-gray-600 text-white',
+        primary: tw`bg-blue-500 text-white`,
+        secondary: tw`bg-gray-600 text-white`,
     }
 
     return (
-        <button className={`${baseClasses} ${variantClasses[variant]} ${className}`} {...props}>
+        <button className={`${baseClasses} ${variantClasses[variant]} ${className}`} type="button" {...props}>
             {children}
         </button>
-    )
-}
-
-// Event Ticker component
-const EventTicker = () => {
-    const events = [
-        { type: 'BUY', amount: '0.00099', token: '$RIDER', color: 'bg-green-600' },
-        { type: 'SELL', amount: '0.01448', token: '$TrumpMogShot', color: 'bg-red-600' },
-        // ... add more events
-    ]
-
-    return (
-        <motion.div
-            className="flex overflow-x-auto space-x-2 mb-4"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-        >
-            {events.map((event, index) => (
-                <div key={index} className={`flex-shrink-0 p-2 rounded ${event.color}`}>
-                    <p className="text-sm">{event.type} EVENT</p>
-                    <p className="text-xs">{event.amount} ETH</p>
-                    <p className="text-xs">{event.token}</p>
-                </div>
-            ))}
-        </motion.div>
     )
 }
 
@@ -55,13 +48,13 @@ const Header = () => (
         transition={{ duration: 0.5, delay: 0.2 }}
     >
         <div className="flex space-x-4">
-            <a href="#" className="text-gray-400 hover:text-white">
+            <Link to="/" className="text-gray-400 hover:text-white">
                 Back to home
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white">
+            </Link>
+            <a href="#" target="_blank" className="text-gray-400 hover:text-white">
                 [TELEGRAM]
             </a>
-            <a href="#" className="text-gray-400 hover:text-white">
+            <a href="#" target="_blank" className="text-gray-400 hover:text-white">
                 [X/TWITTER]
             </a>
         </div>
@@ -73,6 +66,20 @@ const Header = () => (
     </motion.header>
 )
 
+const AppearBlock = ({ children, delay = 0.2, duration = 0.5, className = '' }) => {
+    return (
+        <motion.div
+            className={twMerge(`bg-gray-800 p-4 rounded-lg mb-4 bg-opacity-60 backdrop-blur`, className)}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration, delay }}
+            // on transition end
+        >
+            {children}
+        </motion.div>
+    )
+}
+
 // Token Info component
 const TokenInfo = () => (
     <motion.div
@@ -82,7 +89,7 @@ const TokenInfo = () => (
         transition={{ duration: 0.5, delay: 0.4 }}
     >
         <div className="flex items-center space-x-4 mb-4">
-            <img src="/api/placeholder/100/100" alt="Token" className="w-16 h-16 rounded-full" />
+            <img src="/favicon.png" alt="Token" className="w-16 h-16 rounded-full" />
             <div>
                 <h2 className="text-xl font-bold">THIS IS A CHASE</h2>
                 <p className="text-blue-400">$CHASE</p>
@@ -94,7 +101,7 @@ const TokenInfo = () => (
                 <Send size={16} />
             </Button>
             <Button variant="secondary">
-                <Twitter size={16} />
+                <SiX size={16} />
             </Button>
             <Button variant="secondary">
                 <Globe size={16} />
@@ -150,19 +157,23 @@ const TokenHolders = () => (
     </motion.div>
 )
 
+const pageCss = /* css */ `
+body {
+    background: transparent;
+}
+`
+
 // Main Dashboard component
 const TokenPage = () => {
     return (
         <div className="text-white min-h-screen p-4">
-            <EventTicker />
+            <GlobalStyles css={pageCss} />
             <Header />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="md:col-span-2">
                     <TokenInfo />
                     {/* Placeholder for the chart */}
-                    <div className="bg-gray-800 p-4 rounded-lg mb-4 bg-opacity-70 backdrop-blur">
-                        <TradingHistoryChart />
-                    </div>
+                    <ChartContainer />
                 </div>
                 <div>
                     <ProgressBars />
@@ -171,6 +182,21 @@ const TokenPage = () => {
             </div>
             <FuturisticGridBackground />
         </div>
+    )
+}
+
+function ChartContainer() {
+    return (
+        <motion.div
+            className={twMerge(`bg-gray-800 p-4 rounded-lg mb-4 bg-opacity-60 backdrop-blur w-full h-[400px]`)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            // be the last
+            transition={{ duration: 0.5, delay: 0.4 }}
+            // on transition end
+        >
+            <TradingHistoryChart />
+        </motion.div>
     )
 }
 

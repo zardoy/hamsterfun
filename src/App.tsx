@@ -1,4 +1,4 @@
-import { SendTransactionRequest, TonConnectButton, TonConnectUIProvider, useTonAddress, useTonConnectUI, useTonWallet } from '@tonconnect/ui-react'
+import { SendTransactionRequest, THEME, TonConnectButton, TonConnectUIProvider, useTonAddress, useTonConnectUI, useTonWallet } from '@tonconnect/ui-react'
 import { useEffect } from 'react'
 import { RouterProvider } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
@@ -8,7 +8,7 @@ import { mainRouter } from './Router'
 
 export default function App() {
     return (
-        <TonConnectUIProvider manifestUrl={`${location.origin}/tonconnect-manifest.json`}>
+        <TonConnectUIProvider manifestUrl={`${location.origin}/tonconnect-manifest.json`} uiPreferences={{ theme: THEME.DARK }}>
             <RouterProvider router={mainRouter} />
         </TonConnectUIProvider>
     )

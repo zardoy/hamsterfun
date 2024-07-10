@@ -1,5 +1,6 @@
 //@ts-nocheck
 import React, { useRef, useEffect } from 'react'
+import { COLORS } from './colors'
 
 const FuturisticGridBackground = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null!)
@@ -20,14 +21,14 @@ const FuturisticGridBackground = () => {
 
         // Grid properties
         const gridSize = 50
-        const gridColor = 'rgba(0, 195, 255, 0.3)'
+        const { gridColor } = COLORS
 
         // Particle properties
         const particles = []
         const particleCount = 10
         const particleRadius = 3
-        const particleColor = 'rgba(0, 255, 255, 0.5)'
-        const particleSpeed = 0.3
+        const particleColor = COLORS.gridMovingCircleColor
+        const particleSpeed = 0.01
 
         class Particle {
             constructor() {
@@ -36,32 +37,33 @@ const FuturisticGridBackground = () => {
                 this.direction = Math.floor(Math.random() * 4) // 0: right, 1: down, 2: left, 3: up
             }
 
-            move() {
+            move(timePassed) {
+                const speed = particleSpeed * timePassed
                 switch (this.direction) {
                     case 0: {
                         // right
-                        this.x += particleSpeed
+                        this.x += speed
                         if (this.x >= canvas.width) this.x = 0
                         break
                     }
 
                     case 1: {
                         // down
-                        this.y += particleSpeed
+                        this.y += speed
                         if (this.y >= canvas.height) this.y = 0
                         break
                     }
 
                     case 2: {
                         // left
-                        this.x -= particleSpeed
+                        this.x -= speed
                         if (this.x < 0) this.x = canvas.width - gridSize
                         break
                     }
 
                     case 3: {
                         // up
-                        this.y -= particleSpeed
+                        this.y -= speed
                         if (this.y < 0) this.y = canvas.height - gridSize
                         break
                     }
@@ -112,7 +114,8 @@ const FuturisticGridBackground = () => {
         }
 
         // Animation loop
-        const animate = () => {
+        let lastTime = performance.now()
+        const animate = time => {
             ctx.clearRect(0, 0, canvas.width, canvas.height)
 
             // Draw background
@@ -124,15 +127,17 @@ const FuturisticGridBackground = () => {
 
             drawGrid()
 
+            const timePassed = time - lastTime
+            lastTime = time
             for (const particle of particles) {
-                particle.move()
+                particle.move(timePassed)
                 particle.draw()
             }
 
             animationFrameId = requestAnimationFrame(animate)
         }
 
-        animate()
+        animate(performance.now())
 
         return () => {
             window.removeEventListener('resize', resizeCanvas)

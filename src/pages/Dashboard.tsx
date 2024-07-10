@@ -5,10 +5,7 @@ import WalletButtons from '../WalletButtons'
 
 function Dashboard() {
     return (
-        <div className="bg-gray-900 text-white min-h-screen p-4">
-            {/* Top ticker */}
-            <Events />
-
+        <div className="min-h-screen p-4">
             {/* Header */}
             <header className="flex justify-between items-center mb-6">
                 <div className="flex items-center space-x-2">
@@ -85,20 +82,6 @@ function MostToken() {
 
 function Button({ ...props }: React.ComponentProps<'button'>) {
     return <button className="bg-blue-500 text-white px-4 py-2 rounded" type="button" {...props} />
-}
-
-function Events() {
-    return (
-        <div className="flex overflow-x-auto mb-4 space-x-2">
-            {['BUY EVENT', 'SELL EVENT'].map((event, index) => (
-                <div key={index} className={`flex-shrink-0 p-2 rounded ${event === 'BUY EVENT' ? 'bg-green-600' : 'bg-red-600'}`}>
-                    <p className="text-sm">{event}</p>
-                    <p className="text-xs">0.00099 ETH</p>
-                    <p className="text-xs">$RIDER</p>
-                </div>
-            ))}
-        </div>
-    )
 }
 
 export default Dashboard

@@ -1,5 +1,37 @@
+import { motion } from 'framer-motion'
 import { Outlet } from 'react-router-dom'
 
 export default () => {
-    return <Outlet />
+    return (
+        <div>
+            <EventTicker />
+            <Outlet />
+        </div>
+    )
+}
+
+// Event Ticker component
+const EventTicker = () => {
+    const events = [
+        { type: 'BUY', amount: '0.00099', token: '$RIDER', color: 'bg-green-600' },
+        { type: 'SELL', amount: '0.01448', token: '$TrumpMogShot', color: 'bg-red-600' },
+        // ... add more events
+    ]
+
+    return (
+        <motion.div
+            className="flex overflow-x-auto space-x-4 mb-4 p-4"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+        >
+            {events.map((event, index) => (
+                <div key={index} className={`flex-shrink-0 p-2 rounded-lg ${event.color}`}>
+                    <p className="text-sm font-bold">{event.amount} ETH</p>
+                    <p className="text-xs mt-[1px]">{event.token}</p>
+                    <p className="text-xs mt-[2px]">{event.type} EVENT</p>
+                </div>
+            ))}
+        </motion.div>
+    )
 }

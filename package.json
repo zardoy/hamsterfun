@@ -36,6 +36,7 @@
         "ethers": "^6.9.0",
         "framer-motion": "^10.18.0",
         "geist": "^1.2.0",
+        "lightweight-charts": "^4.1.6",
         "lodash-es": "^4.17.21",
         "lucide-react": "^0.406.0",
         "postcss": "^8.4.32",
