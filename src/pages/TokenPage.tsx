@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion'
 import { Send, Globe } from 'lucide-react'
 import { Link } from 'react-router-dom'
@@ -7,20 +7,7 @@ import { SiX } from '@icons-pack/react-simple-icons'
 import WalletButtons from '../WalletButtons'
 import TradingHistoryChart from '../TokenChart'
 import FuturisticGridBackground from '../Background'
-
-const GlobalStyles = ({ css }) => {
-    useEffect(() => {
-        const style = document.createElement('style')
-        // eslint-disable-next-line unicorn/prefer-dom-node-append
-        style.appendChild(document.createTextNode(css))
-        document.head.append(style)
-        return () => {
-            style.remove()
-        }
-    }, [css])
-
-    return null
-}
+import { GlobalStyles } from './GlobalStyles'
 
 const tw = String.raw
 

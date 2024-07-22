@@ -1,4 +1,4 @@
-/// <reference types="vite/client" />
+/// <reference types="@rsbuild/core/types" />
 import { renderToDom } from '@zardoy/react-util'
 import App from './App'
 import 'tailwindcss/tailwind.css'

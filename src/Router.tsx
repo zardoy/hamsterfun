@@ -5,6 +5,9 @@ import Dashboard from './pages/Dashboard'
 import TokenPage from './pages/TokenPage'
 import TradingHistoryChart from './TokenChart'
 import FuturisticGridBackground from './Background'
+import {} from '@ton/core'
+import TokenPageNew from './pages/TokenPageNew'
+import CreateTokenForm from './pages/CreateCoin'
 
 export const mainRouter = createBrowserRouter([
     {
@@ -18,7 +21,11 @@ export const mainRouter = createBrowserRouter([
             },
             {
                 path: '/token/:tokenId',
-                Component: TokenPage,
+                Component: TokenPageNew,
+            },
+            {
+                path: '/create',
+                Component: CreateTokenForm,
             },
             {
                 path: '/chart',

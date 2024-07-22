@@ -1,7 +1,11 @@
+import { useTonConnectUI, TonConnect } from '@tonconnect/ui-react'
 import { motion } from 'framer-motion'
 import { Outlet } from 'react-router-dom'
+import { useCreateContract } from './ton/useContractWrappers'
 
 export default () => {
+    const [tonConnectUI, setOptions] = useTonConnectUI()
+
     return (
         <div>
             <EventTicker />
@@ -9,6 +13,8 @@ export default () => {
         </div>
     )
 }
+
+const tonConnect = new TonConnect()
 
 // Event Ticker component
 const EventTicker = () => {
