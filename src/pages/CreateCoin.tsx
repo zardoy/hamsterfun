@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Upload, X } from 'lucide-react'
+import { Button } from './Button'
 
 const Input = ({ label, ...props }: React.ComponentProps<'input'> & { label: string }) => (
     <div className="mb-4">
@@ -45,22 +46,6 @@ const FileInput = ({ label, image, onImageChange, onImageRemove, ...props }) => 
             </div>
         )}
     </div>
-)
-
-const Button = ({ children, className = '', ...props }) => (
-    <motion.button
-        className={`w-full enabled:hover:brightness-[1.15] enabled:active:brightness-[1.3] transition-all disabled:opacity-30 disabled:cursor-not-allowed truncate min-h-[50px] rounded-[10px] bg-blue-500 text-white font-semibold text-[17px] leading-[20px] ${className}`}
-        whileHover={{
-            scale: 1.05,
-            transition: { duration: 0.1 },
-        }}
-        whileTap={{
-            scale: 0.9,
-        }}
-        {...props}
-    >
-        {children}
-    </motion.button>
 )
 
 const CreateTokenForm = () => {

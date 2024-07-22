@@ -1,21 +1,11 @@
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronLeft, Globe, MessageSquare, Twitter } from 'lucide-react'
 import { twMerge } from 'tailwind-merge'
 import FuturisticGridBackground from '../Background'
 import TradingHistoryChart from '../TokenChart'
 import { GlobalStyles } from './GlobalStyles'
-
-const Button = ({ children, variant = 'primary', className = '', ...props }) => (
-    <button
-        className={`w-full enabled:hover:brightness-[1.15] enabled:active:brightness-[1.3] transition-all disabled:opacity-30 disabled:cursor-not-allowed truncate min-h-[50px] rounded-[10px] font-semibold text-[17px] leading-[20px] ${
-            variant === 'primary' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-white'
-        } ${className}`}
-        type="button"
-        {...props}
-    >
-        {children}
-    </button>
-)
+import { Button } from './Button'
 
 const Input = ({ ...props }) => (
     <input
@@ -67,16 +57,24 @@ const ChartContainer = () => {
             className={twMerge(`bg-gray-800 p-4 rounded-lg mb-4 bg-opacity-60 backdrop-blur w-full h-[400px]`)}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            // be the last
             transition={{ duration: 0.5, delay: 0.4 }}
-            // on transition end
         >
             <TradingHistoryChart />
         </motion.div>
     )
 }
 
-const TokenPageInner = () => {
+const TokenPageInner = ({ walletConnected }: { walletConnected: boolean }) => {
+    const [currentAction, setCurrentAction] = useState('Buy')
+    const [tonAmount, setTonAmount] = useState('')
+    const [connected, setConnected] = useState(walletConnected)
+
+    const handleSubmit = e => {
+        e.preventDefault()
+        // Handle form submission with tonAmount and currentAction
+        console.log(`Action: ${currentAction}, Amount: ${tonAmount}`)
+    }
+
     return (
         <motion.div
             initial={{ opacity: 0 }}
@@ -105,7 +103,6 @@ const TokenPageInner = () => {
                             <div className="bg-blue-500 text-white px-2 py-1 rounded">PROGRESS 64%</div>
                         </div>
                         <div className="bg-gray-700 rounded mb-4">
-                            {/* Placeholder for chart */}
                             <ChartContainer />
                         </div>
                         <p className="text-right text-gray-400">Price to be listed on DeDust: 0.00003295</p>
@@ -121,21 +118,32 @@ const TokenPageInner = () => {
 
                 <div>
                     <div className="flex mb-4">
-                        <Button className="flex-1 mr-2">Buy</Button>
-                        <Button variant="secondary" className="flex-1 ml-2">
+                        <Button className={`flex-1 mr-2 ${currentAction === 'Buy' ? 'bg-blue-500' : 'bg-gray-700'}`} onClick={() => setCurrentAction('Buy')}>
+                            Buy
+                        </Button>
+                        <Button
+                            variant="secondary"
+                            className={`flex-1 ml-2 ${currentAction === 'Sell' ? 'bg-red-500' : 'bg-gray-700'}`}
+                            onClick={() => setCurrentAction('Sell')}
+                        >
                             Sell
                         </Button>
                     </div>
-                    <div className="mb-4">
-                        <Input placeholder="0 TON" />
-                    </div>
-                    <div className="grid grid-cols-4 gap-2 mb-4">
-                        <Button variant="secondary">3 TON</Button>
-                        <Button variant="secondary">10 TON</Button>
-                        <Button variant="secondary">50 TON</Button>
-                        <Button variant="secondary">100 TON</Button>
-                    </div>
-                    <Button className="mb-6">Connect wallet</Button>
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-4">
+                            <Input placeholder="0 TON" value={tonAmount} onChange={e => setTonAmount(e.target.value)} />
+                        </div>
+                        <div className="grid grid-cols-4 gap-2 mb-4">
+                            {['3 TON', '10 TON', '50 TON', '100 TON'].map(value => (
+                                <Button key={value} variant="secondary" onClick={() => setTonAmount(value.split(' ')[0])}>
+                                    {value}
+                                </Button>
+                            ))}
+                        </div>
+                        <Button className="mb-6" onClick={() => setConnected(!connected)}>
+                            {connected ? 'Disconnect wallet' : 'Connect wallet'}
+                        </Button>
+                    </form>
                     <div className="bg-gray-800 p-4 rounded-lg mb-6">
                         <TokenInfo label="Price" value="$0.00001904" />
                         <TokenInfo label="Max Supply" value="1,000,000,000" />
@@ -149,7 +157,6 @@ const TokenPageInner = () => {
                     </div>
                 </div>
             </div>
-            {/* <FuturisticGridBackground /> */}
         </motion.div>
     )
 }
@@ -164,7 +171,7 @@ const TokenPageNew = () => {
     return (
         <div>
             <GlobalStyles css={pageCss} />
-            <TokenPageInner />
+            <TokenPageInner walletConnected={false} />
         </div>
     )
 }
