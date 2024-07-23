@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Upload, X } from 'lucide-react'
+import { useAwaitedClickAction } from '@zardoy/react-util'
+import { useCreateContract } from '../ton/useContractWrappers'
 import { Button } from './Button'
 
 const Input = ({ label, ...props }: React.ComponentProps<'input'> & { label: string }) => (
@@ -54,8 +56,10 @@ const CreateTokenForm = () => {
     const [initialBuy, setInitialBuy] = useState('')
     const [description, setDescription] = useState('')
     const [image, setImage] = useState('')
+    const createContract = useCreateContract()
 
-    const handleSubmit = e => {
+    const handleSubmit = useAwaitedClickAction((async e => {
+        if (handleSubmit.disabled) return
         e.preventDefault()
         // Handle form submission
         console.log('Form submitted', {
@@ -65,7 +69,14 @@ const CreateTokenForm = () => {
             description,
             image,
         })
-    }
+        await createContract?.createToken({
+            name: tokenName,
+            description,
+            image,
+            symbol: tokenSymbol,
+            initialBuy: parseFloat(initialBuy),
+        })
+    }) as any)
 
     const handleImageChange = e => {
         const file = e.target.files[0]
@@ -112,7 +123,7 @@ const CreateTokenForm = () => {
             <motion.h1 className="text-3xl font-bold mb-8 text-center" variants={itemVariants}>
                 Create New Token
             </motion.h1>
-            <motion.form className="max-w-lg mx-auto" variants={containerVariants} onSubmit={handleSubmit}>
+            <motion.form className="max-w-lg mx-auto" variants={containerVariants} onSubmit={handleSubmit as any}>
                 <motion.div variants={itemVariants}>
                     <Input
                         required

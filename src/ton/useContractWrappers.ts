@@ -76,7 +76,7 @@ export function useBuyContract() {
 
     return jettonPoolContract
         ? {
-              async buy(amountIn: number, referral: Address) {
+              async buy(amountIn: number, referral: string) {
                   await jettonPoolContract.send(
                       connection.sender,
                       {
@@ -87,7 +87,7 @@ export function useBuyContract() {
                           query_id: 1234n,
                           amount_in: toNano(amountIn),
                           // referral: Address.parse('kQCP8NoFzQqBMW8egYZdmaY5kmlI8tpKao2GzQSJhey8M34U'),
-                          referral,
+                          referral: Address.parse(referral),
                       },
                   )
               },
@@ -100,7 +100,7 @@ export function useSellContract() {
     const client = useTonClient()
     const connection = useConnection()
 
-    const pool = 'kQD8bfY8cX0l3B9j6ghIVQPjteT1138M2iF18SwRLk5vk0_I'
+    const poolDefault = 'kQD8bfY8cX0l3B9j6ghIVQPjteT1138M2iF18SwRLk5vk0_I'
 
     const jettonMaster = '0QAihQ2T62Ua8W584aePUBJ4_iOlRGPpQYQ9kSfVbqidSjnS'
     const jettonWalletContract = useInit<OpenedContract<PumpfunJettonWallet> | void>(async () => {
@@ -111,9 +111,9 @@ export function useSellContract() {
 
     return jettonWalletContract
         ? {
-              sell(amount: number) {
+              async sell(amount: number, pool = poolDefault) {
                   const amountNano = toNano(amount)
-                  void jettonWalletContract.send(
+                  await jettonWalletContract.send(
                       connection.sender,
                       {
                           value: toNano(amount + 1.5),
@@ -122,7 +122,7 @@ export function useSellContract() {
                           $$type: 'TokenTransfer',
                           query_id: 456n,
                           amount: amountNano,
-                          sender: Address.parse(pool),
+                          sender: Address.parse(poolDefault),
                           forward_ton_amount: toNano(0.2),
                           response_destination: Address.parse(tonAddress),
                           forward_payload: beginCell()

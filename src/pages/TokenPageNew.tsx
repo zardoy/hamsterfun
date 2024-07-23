@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronLeft, Globe, MessageSquare, Twitter } from 'lucide-react'
 import { twMerge } from 'tailwind-merge'
+import { useAwaitedClickAction } from '@zardoy/react-util'
 import FuturisticGridBackground from '../Background'
 import TradingHistoryChart from '../TokenChart'
+import { useBuyContract, useSellContract } from '../ton/useContractWrappers'
 import { GlobalStyles } from './GlobalStyles'
 import { Button } from './Button'
 
@@ -68,12 +70,23 @@ const TokenPageInner = ({ walletConnected }: { walletConnected: boolean }) => {
     const [currentAction, setCurrentAction] = useState('Buy')
     const [tonAmount, setTonAmount] = useState('')
     const [connected, setConnected] = useState(walletConnected)
+    const buyContract = useBuyContract()
+    const sellContract = useSellContract()
+    const address = '...'
 
-    const handleSubmit = e => {
+    const handleSubmit = useAwaitedClickAction((async e => {
+        if (handleSubmit.disabled) return
         e.preventDefault()
         // Handle form submission with tonAmount and currentAction
         console.log(`Action: ${currentAction}, Amount: ${tonAmount}`)
-    }
+        if (currentAction === 'Buy') {
+            await buyContract?.buy(parseFloat(tonAmount), address)
+        }
+
+        if (currentAction === 'Sell') {
+            await sellContract?.sell(parseFloat(tonAmount) /* pool */)
+        }
+    }) as any)
 
     return (
         <motion.div
@@ -129,18 +142,23 @@ const TokenPageInner = ({ walletConnected }: { walletConnected: boolean }) => {
                             Sell
                         </Button>
                     </div>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={async e => handleSubmit.onClick(e)}>
                         <div className="mb-4">
                             <Input placeholder="0 TON" value={tonAmount} onChange={e => setTonAmount(e.target.value)} />
                         </div>
                         <div className="grid grid-cols-4 gap-2 mb-4">
                             {['3 TON', '10 TON', '50 TON', '100 TON'].map(value => (
-                                <Button key={value} variant="secondary" onClick={() => setTonAmount(value.split(' ')[0])}>
+                                <Button key={value} variant="secondary" onClick={() => setTonAmount(value.split(' ')[0]!)}>
                                     {value}
                                 </Button>
                             ))}
                         </div>
-                        <Button className="mb-6" onClick={() => setConnected(!connected)}>
+                        <Button
+                            className="mb-6"
+                            type={connected ? 'submit' : 'button'}
+                            disabled={handleSubmit.disabled}
+                            onClick={() => setConnected(!connected)}
+                        >
                             {connected ? 'Disconnect wallet' : 'Connect wallet'}
                         </Button>
                     </form>

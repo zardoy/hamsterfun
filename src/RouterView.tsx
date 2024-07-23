@@ -1,10 +1,21 @@
 import { useTonConnectUI, TonConnect } from '@tonconnect/ui-react'
 import { motion } from 'framer-motion'
 import { Outlet } from 'react-router-dom'
-import { useCreateContract } from './ton/useContractWrappers'
+import { useEffect } from 'react'
+import { useBuyContract, useCreateContract, useSellContract } from './ton/useContractWrappers'
 
 export default () => {
     const [tonConnectUI, setOptions] = useTonConnectUI()
+    // todo remove
+    const buyContract = useBuyContract()
+    const sellContract = useSellContract()
+    const createContract = useCreateContract()
+
+    useEffect(() => {
+        globalThis.buy = buyContract?.buy
+        globalThis.sell = sellContract?.sell
+        globalThis.create = createContract?.createToken
+    }, [buyContract, sellContract, createContract])
 
     return (
         <div>

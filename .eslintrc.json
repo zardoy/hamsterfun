@@ -16,7 +16,8 @@
         "unicorn/prefer-number-properties": "off",
         "@typescript-eslint/consistent-type-imports": "off",
         "react/function-component-definition": "off",
-        "no-empty-function": "off"
+        "no-empty-function": "off",
+        "react/boolean-prop-naming": "off"
     },
     "plugins": [
         "eslint-plugin-react",
