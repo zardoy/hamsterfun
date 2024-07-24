@@ -10,7 +10,7 @@ function Dashboard() {
             <header className="flex justify-between items-center mb-6">
                 <div className="flex items-center space-x-2">
                     <div className="w-8 h-8 bg-blue-500 rounded-full" />
-                    <span>Ton.fun</span>
+                    <span>Hamster Fun</span>
                 </div>
                 {/* <Button className="bg-blue-500 text-white px-4 py-2 rounded">Connect Wallet</Button> */}
                 <WalletButtons />
