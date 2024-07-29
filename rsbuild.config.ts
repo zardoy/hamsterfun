@@ -16,7 +16,7 @@ export default defineConfig({
         },
     },
     server: {
-        strictPort: true,
+        // strictPort: true,
     },
     plugins: [
         pluginReact(),

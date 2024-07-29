@@ -5,7 +5,7 @@
     "scripts": {
         "start": "rsbuild dev",
         "build": "rsbuild build",
-        "generate-api": "curl -o src/api/spec.json https://api.lycheetest.site/v3/api-docs && openapi-generator-cli generate -i src/api/spec.json -g typescript-axios -o src/api",
+        "generate-api": "curl -o src/api/spec.json https://api.hamster.fun/v3/api-docs && openapi-generator-cli generate -i src/api/spec.json -g typescript-axios -o src/api",
         "lint": "eslint src",
         "test:e2e": "echo skipped"
     },

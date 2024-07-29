@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import WalletButtons from '../WalletButtons'
 // import { twMerge } from 'tailwind-merge'
 
@@ -23,16 +23,24 @@ function Dashboard() {
 }
 
 function MainDashboard() {
+    const navigate = useNavigate()
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Create a Token */}
-            <div className="bg-gray-800 p-4 rounded">
-                <h2 className="text-xl font-bold mb-4">CREATE A TOKEN</h2>
-                <p className="text-sm mb-4">Deploy with thousands in liquidity for just 0.00169 TON</p>
-                <input className="w-full bg-gray-700 p-2 rounded mb-2" placeholder="Token Name" />
-                <input className="w-full bg-gray-700 p-2 rounded mb-2" placeholder="$ Token Symbol" />
-                <Button className="w-full bg-gray-700 p-2 rounded mb-2 text-left">Choose File</Button>
-                <Button className="w-full bg-blue-500 p-2 rounded">CREATE TOKEN</Button>
+            <div className="bg-gray-800 p-4 rounded flex flex-col justify-between">
+                <div>
+                    <h2 className="text-xl font-bold mb-4">CREATE A TOKEN</h2>
+                    <p className="text-sm mb-4">Deploy with thousands in liquidity for just 0.00169 TON</p>
+                </div>
+                <Button
+                    className="w-full bg-blue-500 p-2 rounded"
+                    onClick={() => {
+                        navigate('/create')
+                    }}
+                >
+                    CREATE MY TOKEN
+                </Button>
             </div>
 
             {/* Base Race */}
