@@ -17,7 +17,7 @@ export function useCreateContract() {
     const mainContract = useInit<OpenedContract<PumpfunJettonFactory> | void>(async () => {
         if (!client) return
         const contractWrapper = PumpfunJettonFactory.fromAddress(Address.parse('kQBQnIG6X5-zX7UsbitsrafGN00ao8BIynfT7AcWxY-fE1Ph'))
-        return client.open(contractWrapper) as OpenedContract<PumpfunJettonFactory>
+        return client.open(contractWrapper)
     }, [client])
 
     return mainContract
@@ -62,16 +62,16 @@ export function useCreateContract() {
         : null
 }
 
+const pool = 'kQAVpbQ0P9M530m-_ec4tAiGm5oCqWOXyTn6o4CnyOmoFCU3'
 export function useBuyContract() {
     const tonAddress = useTonAddress()
     const client = useTonClient()
     const connection = useConnection()
 
-    const pool = 'kQD8bfY8cX0l3B9j6ghIVQPjteT1138M2iF18SwRLk5vk0_I'
     const jettonPoolContract = useInit<OpenedContract<PumpfunJettonPool> | void>(async () => {
         if (!client) return
         const contractWrapper = PumpfunJettonPool.fromAddress(Address.parse(pool))
-        return client.open(contractWrapper) as OpenedContract<PumpfunJettonPool>
+        return client.open(contractWrapper)
     }, [client])
 
     return jettonPoolContract
@@ -86,8 +86,8 @@ export function useBuyContract() {
                           $$type: 'Buy',
                           query_id: 1234n,
                           amount_in: toNano(amountIn),
-                          // referral: Address.parse('kQCP8NoFzQqBMW8egYZdmaY5kmlI8tpKao2GzQSJhey8M34U'),
-                          referral: Address.parse(referral),
+                          referral: Address.parse('kQCP8NoFzQqBMW8egYZdmaY5kmlI8tpKao2GzQSJhey8M34U'),
+                          //   referral: Address.parse(referral),
                       },
                   )
               },
@@ -100,18 +100,16 @@ export function useSellContract() {
     const client = useTonClient()
     const connection = useConnection()
 
-    const poolDefault = 'kQD8bfY8cX0l3B9j6ghIVQPjteT1138M2iF18SwRLk5vk0_I'
-
-    const jettonMaster = '0QAihQ2T62Ua8W584aePUBJ4_iOlRGPpQYQ9kSfVbqidSjnS'
+    const jettonMaster = 'kQC5trkLva2i02t35sLarHwgWp6g-nchgyJ9NACt_snrycZk'
     const jettonWalletContract = useInit<OpenedContract<PumpfunJettonWallet> | void>(async () => {
         if (!client || !tonAddress) return
         const contractWrapper = await PumpfunJettonWallet.fromInit(Address.parse(tonAddress), Address.parse(jettonMaster))
-        return client.open(contractWrapper) as OpenedContract<PumpfunJettonWallet>
+        return client.open(contractWrapper)
     }, [client, tonAddress])
 
     return jettonWalletContract
         ? {
-              async sell(amount: number, pool = poolDefault) {
+              async sell(amount: number) {
                   const amountNano = toNano(amount)
                   await jettonWalletContract.send(
                       connection.sender,
@@ -122,7 +120,7 @@ export function useSellContract() {
                           $$type: 'TokenTransfer',
                           query_id: 456n,
                           amount: amountNano,
-                          sender: Address.parse(poolDefault),
+                          sender: Address.parse(pool),
                           forward_ton_amount: toNano(0.2),
                           response_destination: Address.parse(tonAddress),
                           forward_payload: beginCell()

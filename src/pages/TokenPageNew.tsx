@@ -3,13 +3,14 @@ import { motion } from 'framer-motion'
 import { ChevronLeft, Globe, MessageSquare, Twitter } from 'lucide-react'
 import { twMerge } from 'tailwind-merge'
 import { useAwaitedClickAction } from '@zardoy/react-util'
+import { useTonConnectModal, useTonWallet, useTonAddress } from '@tonconnect/ui-react'
 import FuturisticGridBackground from '../Background'
 import TradingHistoryChart from '../TokenChart'
 import { useBuyContract, useSellContract } from '../ton/useContractWrappers'
 import { GlobalStyles } from './GlobalStyles'
 import { Button } from './Button'
 
-const Input = ({ ...props }) => (
+const Input = ({ ...props }: React.ComponentProps<'input'>) => (
     <input
         className="h-[60px] w-full pl-4 pr-[96px] border-2 border-gray-700 rounded-[12px] text-[28px] leading-[40px] font-semibold placeholder:text-gray-500 bg-gray-800 text-white"
         {...props}
@@ -67,16 +68,16 @@ const ChartContainer = () => {
 }
 
 const TokenPageInner = ({ walletConnected }: { walletConnected: boolean }) => {
+    const connected = !!useTonAddress()
     const [currentAction, setCurrentAction] = useState('Buy')
     const [tonAmount, setTonAmount] = useState('')
-    const [connected, setConnected] = useState(walletConnected)
     const buyContract = useBuyContract()
     const sellContract = useSellContract()
     const address = '...'
+    const tonConnectModal = useTonConnectModal()
 
     const handleSubmit = useAwaitedClickAction((async e => {
         if (handleSubmit.disabled) return
-        e.preventDefault()
         // Handle form submission with tonAmount and currentAction
         console.log(`Action: ${currentAction}, Amount: ${tonAmount}`)
         if (currentAction === 'Buy') {
@@ -142,9 +143,14 @@ const TokenPageInner = ({ walletConnected }: { walletConnected: boolean }) => {
                             Sell
                         </Button>
                     </div>
-                    <form onSubmit={async e => handleSubmit.onClick(e)}>
+                    <form
+                        onSubmit={e => {
+                            e.preventDefault()
+                            void handleSubmit.onClick(null)
+                        }}
+                    >
                         <div className="mb-4">
-                            <Input placeholder="0 TON" value={tonAmount} onChange={e => setTonAmount(e.target.value)} />
+                            <Input required placeholder="0 TON" value={tonAmount} onChange={e => setTonAmount(e.target.value)} />
                         </div>
                         <div className="grid grid-cols-4 gap-2 mb-4">
                             {['3 TON', '10 TON', '50 TON', '100 TON'].map(value => (
@@ -157,9 +163,11 @@ const TokenPageInner = ({ walletConnected }: { walletConnected: boolean }) => {
                             className="mb-6"
                             type={connected ? 'submit' : 'button'}
                             disabled={handleSubmit.disabled}
-                            onClick={() => setConnected(!connected)}
+                            onClick={() => {
+                                tonConnectModal.open()
+                            }}
                         >
-                            {connected ? 'Disconnect wallet' : 'Connect wallet'}
+                            {connected ? currentAction : 'Connect wallet'}
                         </Button>
                     </form>
                     <div className="bg-gray-800 p-4 rounded-lg mb-6">

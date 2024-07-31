@@ -3,6 +3,8 @@ import { motion } from 'framer-motion'
 import { Outlet } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useBuyContract, useCreateContract, useSellContract } from './ton/useContractWrappers'
+import { Portal } from './pages/TokenPage'
+import Loader, { showLoader } from './pages/Loader'
 
 export default () => {
     const [tonConnectUI, setOptions] = useTonConnectUI()
@@ -15,12 +17,17 @@ export default () => {
         globalThis.buy = buyContract?.buy
         globalThis.sell = sellContract?.sell
         globalThis.create = createContract?.createToken
+
+        globalThis.showLoader = showLoader
     }, [buyContract, sellContract, createContract])
 
     return (
         <div>
             <EventTicker />
             <Outlet />
+            <Portal>
+                <Loader />
+            </Portal>
         </div>
     )
 }

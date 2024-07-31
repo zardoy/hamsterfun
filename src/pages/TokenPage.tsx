@@ -2,12 +2,17 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { Send, Globe } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { createPortal } from 'react-dom'
 import { twMerge } from 'tailwind-merge'
 import { SiX } from '@icons-pack/react-simple-icons'
 import WalletButtons from '../WalletButtons'
 import TradingHistoryChart from '../TokenChart'
 import FuturisticGridBackground from '../Background'
 import { GlobalStyles } from './GlobalStyles'
+
+export const Portal = ({ children }) => {
+    return createPortal(children, document.body)
+}
 
 const tw = String.raw
 
