@@ -113,7 +113,10 @@ html {
 }
 
 .task-title {
-    margin-top: 20px;
+    margin-top: 100px;
     color: white;
     font-size: 24px;
+    font-weight: bold;
+    text-shadow: 0 0 10px #000;
+    z-index: 1;
 }

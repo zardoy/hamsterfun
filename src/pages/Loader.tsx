@@ -13,7 +13,7 @@ const initialLoaderState = {
     ...loaderState,
 }
 
-export const closeLoader = () => {
+export const hideLoader = () => {
     loaderState.open = false
 }
 
@@ -67,7 +67,7 @@ export default () => {
                         taskTitle={taskTitle}
                         color={color}
                         // TESTING ONLY!
-                        onDoubleClick={closeLoader}
+                        onDoubleClick={hideLoader}
                     />
                 </motion.div>
             )}

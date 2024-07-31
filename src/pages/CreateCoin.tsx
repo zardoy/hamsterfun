@@ -4,6 +4,7 @@ import { Upload, X } from 'lucide-react'
 import { useAwaitedClickAction } from '@zardoy/react-util'
 import { useCreateContract } from '../ton/useContractWrappers'
 import { Button } from './Button'
+import { hideLoader, showLoader } from './Loader'
 
 const Input = ({ label, ...props }: React.ComponentProps<'input'> & { label: string }) => (
     <div className="mb-4">
@@ -55,12 +56,12 @@ const CreateTokenForm = () => {
     const [tokenSymbol, setTokenSymbol] = useState('')
     const [initialBuy, setInitialBuy] = useState('')
     const [description, setDescription] = useState('')
+    const [socialLink, setSocialLink] = useState('')
     const [image, setImage] = useState('')
     const createContract = useCreateContract()
 
     const handleSubmit = useAwaitedClickAction((async e => {
         if (handleSubmit.disabled) return
-        e.preventDefault()
         // Handle form submission
         console.log('Form submitted', {
             tokenName,
@@ -68,6 +69,7 @@ const CreateTokenForm = () => {
             initialBuy,
             description,
             image,
+            socialLink,
         })
         await createContract?.createToken({
             name: tokenName,
@@ -76,6 +78,13 @@ const CreateTokenForm = () => {
             symbol: tokenSymbol,
             initialBuy: parseFloat(initialBuy),
         })
+        showLoader({
+            taskTitle: 'Creating token',
+            color: 'green',
+        })
+        setTimeout(() => {
+            hideLoader()
+        }, 5000)
     }) as any)
 
     const handleImageChange = e => {
@@ -123,7 +132,14 @@ const CreateTokenForm = () => {
             <motion.h1 className="text-3xl font-bold mb-8 text-center" variants={itemVariants}>
                 Create New Token
             </motion.h1>
-            <motion.form className="max-w-lg mx-auto" variants={containerVariants} onSubmit={handleSubmit as any}>
+            <motion.form
+                className="max-w-lg mx-auto"
+                variants={containerVariants}
+                onSubmit={e => {
+                    e.preventDefault()
+                    void handleSubmit.onClick(null)
+                }}
+            >
                 <motion.div variants={itemVariants}>
                     <Input
                         required
@@ -156,6 +172,9 @@ const CreateTokenForm = () => {
                 </motion.div>
                 <motion.div variants={itemVariants}>
                     <Textarea label="Description" placeholder="Enter token description" value={description} onChange={e => setDescription(e.target.value)} />
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                    <Textarea label="Social Link" placeholder="Enter social link" value={socialLink} onChange={e => setSocialLink(e.target.value)} />
                 </motion.div>
                 <motion.div variants={itemVariants}>
                     <FileInput label="Token Image" accept="image/*" image={image} onImageChange={handleImageChange} onImageRemove={handleImageRemove} />
